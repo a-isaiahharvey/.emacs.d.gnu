@@ -1,0 +1,242 @@
+#+TITLE: GNU Emacs Config
+#+AUTHOR: Allister Isaiah Harvey
+#+PROPERTY: header-args
+#+DESCRIPTION: My personal Emacs config.
+#+OPTIONS: toc:2 
+#+STARTUP: showeverything
+
+* IMPORTANT! Put This In Your Init.el File
+
+#+begin_example
+    (org-babel-load-file
+        (expand-file-name
+        "config.org"
+        user-emacs-directory))
+#+end_example
+
+* About This Config 
+
+This is my personal Emacs config.
+
+* Package Management
+
+** Setup Package.el To Work With MELPA
+
+#+begin_src emacs-lisp
+    (require 'package)
+    (add-to-list 'package-archives
+        '("melpa" . "https://melpa.org/packages/"))
+    (package-refresh-contents)
+    (package-initialize)
+#+end_src
+
+** Use-Package
+
+Install use-package and enable ':ensure t' globally.
+
+#+begin_src emacs-lisp
+    (unless (package-installed-p 'use-package)
+        (package-install 'use-package))
+    (setq use-package-always-ensure t)
+#+end_src
+
+* Text Editor
+
+** Auto Close Brackets, electric-pair-mode
+
+#+begin_src emacs-lisp
+    (electric-pair-mode 1)
+#+end_src
+
+** Cursor
+
+*** Curosr Blinking
+
+Turn on Blinking Cursor
+
+#+begin_src emacs-lisp
+    (blink-cursor-mode 1)
+#+end_src
+
+*** Cursor Style
+
+Possible values are box, hollow, bar, hbar or nil.
+
+#+begin_src emacs-lsp
+    (setq-default cursor-type 'bar) 
+#+end_src
+
+*** Cursor Surrounding Lines
+
+Controls the minimal number of visible leading and trailing lines surrounding the cursor. Known as 'scrollOff' or 'scrollOffset' in some other editors.
+
+#+begin_src emacs_lisp
+    (setq redisplay-dont-pause t
+        scroll-margin 8
+        scroll-step 1
+        scroll-conservatively 10000
+        scroll-preserve-screen-position 1)
+#+end_src
+
+** Font
+
+*** Font Family
+
+Controls the font family.
+
+#+begin_src emacs-lisp
+  (when (member "Cascadia Code" (font-family-list))
+    (set-frame-font "Cascadia Code"  t))
+#+end_src
+
+*** Font Size
+
+Controls the font size in points.
+
+#+begin_src emacs-lisp
+  (defun set-font-size(size)
+    "Calculates font size"
+    (setq pt (* 10 size))
+    (set-face-attribute 'default nil :height pt)
+  )
+
+  (set-font-size 12)
+#+end_src
+
+** Formatting
+
+This is formatting code
+
+#+begin_src emacs-lisp
+(use-package format-all
+  :preface
+  (defun ian/format-code ()
+    "Auto-format whole buffer."
+    (interactive)
+    (if (derived-mode-p 'prolog-mode)
+        (prolog-indent-buffer)
+      (format-all-buffer)))
+  :config
+  (global-set-key (kbd "M-F") #'ian/format-code)
+  (add-hook 'prog-mode-hook #'format-all-ensure-formatter))
+#+end_src
+
+** Diff Editor
+
+*** Word Wrap
+
+#+begin_src emacs-lisp
+  (global-visual-line-mode t)
+#+end_src
+
+** Files
+
+*** Type Overwrite Selection
+
+Make typing delete/overwrites selected text
+
+#+begin_src emacs-lisp
+  (delete-selection-mode 1)
+#+end_src
+
+*** Lock files
+
+By default, auto-save files are stored in the current directory with a file name on the form #file#.
+If you don’t want to clutter up your file tree with Emacs’ backup files, this it to make Emacs save them
+to the operating system's "temp"  directory:
+
+#+begin_src emacs-lisp
+    (setq backup-directory-alist
+          `((".*" . ,temporary-file-directory)))
+    (setq auto-save-file-name-transforms
+          `((".*" ,temporary-file-directory t)))
+#+end_src
+
+*** Auto Save Delay
+
+Controls the delay in seconds after which an editor with unsaved changes is saved
+automatically.
+
+#+begin_src emacs-lisp
+    (use-package real-auto-save)
+    (add-hook 'prog-mode-hook 'real-auto-save-mode)
+#+end_src
+
+Auto save interval is 10 seconds by default. You can change it:
+
+#+begin_src emacs-lisp
+    (setq real-auto-save-interval 8) ;; in seconds
+#+end_src
+
+* Workbench
+
+** Appearance
+
+*** Installed Themes
+
+#+begin_src emacs-lisp
+  (package-install `atom-one-dark-theme)
+  (package-install `dracula-theme)
+  (package-install `nord-theme)
+#+end_src
+
+*** Color Theme
+
+#+begin_src emacs-lisp
+  (load-theme 'dracula t)
+#+end_src
+
+*** Scroll Bar
+
+Enable Menubar
+
+#+begin_src emacs-lisp
+  (menu-bar-mode 1)
+#+end_src
+
+Disable Scrollbar
+
+#+begin_src emacs-lisp
+  (scroll-bar-mode 0)
+#+end_src
+
+Disable Toolbar
+
+#+begin_src emacs-lisp
+  (tool-bar-mode 0)
+#+end_src
+
+* Packages
+
+** Evil Mode
+
+Installs Evil mode for VIM key emulation and enables it
+
+#+begin_src emacs-lisp
+(use-package evil
+  :ensure t
+  :init
+  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+  (setq evil-want-keybinding nil)
+  :config
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+#+end_src
+
+** Which Key
+
+#+begin_src emacs-lisp
+  (use-package which-key)
+  (which-key-mode 1)
+#+end_src
+
+** TOC-ORG
+
+#+begin_src emacs-lisp
+  (use-package toc-org)
+#+end_src
