@@ -79,3 +79,7 @@
 (which-key-mode 1)
 
 (use-package toc-org)
+
+(use-package neotree)
+
+(global-set-key [f8] 'neotree-toggle)
