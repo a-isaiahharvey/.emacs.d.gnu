@@ -585,3 +585,18 @@ Hooks that run before/after the modeline version string is updated
  (setq doom-modeline-before-update-env-hook nil)
  (setq doom-modeline-after-update-env-hook nil)
 #+end_src
+
+** Tree-sitter
+
+#+begin_src emacs-lisp
+  (use-package tree-sitter-langs)
+#+end_src
+
+
+#+begin_src emacs-lisp
+  (use-package tree-sitter
+    :config
+    (require 'tree-sitter-langs)
+    (global-tree-sitter-mode)
+    (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+#+end_src
