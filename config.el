@@ -124,3 +124,10 @@
 	    ("C-p". company-select-previous)
 	    ("M-<". company-select-first)
 	    ("M->". company-select-last)))
+
+(use-package yasnippet
+:ensure
+:config
+(yas-reload-all)
+(add-hook 'prog-mode-hook 'yas-minor-mode)
+(add-hook 'text-mode-hook 'yas-minor-mode))
