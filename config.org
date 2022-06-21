@@ -320,3 +320,11 @@ NeoTree provides following themes: classic(default) ascii arrow icons nerd. Them
   (add-hook 'prog-mode-hook 'yas-minor-mode)
   (add-hook 'text-mode-hook 'yas-minor-mode))
 #+end_src
+
+** Doom Modeline
+
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
+#+end_src
