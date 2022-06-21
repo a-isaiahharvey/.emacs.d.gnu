@@ -1,6 +1,7 @@
 (require 'package)
 (add-to-list 'package-archives
-    '("melpa" . "https://melpa.org/packages/"))
+    '(("melpa" . "https://melpa.org/packages/")
+     ("gnu" . "http://elpa.gnu.org/packages/")))
 (package-refresh-contents)
 (package-initialize)
 
@@ -235,3 +236,5 @@
   (require 'tree-sitter-langs)
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+(use-package rustic)

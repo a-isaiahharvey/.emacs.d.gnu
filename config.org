@@ -20,14 +20,15 @@ This is my personal Emacs config.
 
 * Package Management
 
-** Setup Package.el To Work With MELPA
+** Setup Package.el To Work With MELPA and ELPA
 
 #+begin_src emacs-lisp
-    (require 'package)
-    (add-to-list 'package-archives
-        '("melpa" . "https://melpa.org/packages/"))
-    (package-refresh-contents)
-    (package-initialize)
+      (require 'package)
+      (add-to-list 'package-archives
+	  '(("melpa" . "https://melpa.org/packages/")
+           ("gnu" . "http://elpa.gnu.org/packages/")))
+      (package-refresh-contents)
+      (package-initialize)
 #+end_src
 
 ** Use-Package
@@ -599,4 +600,10 @@ Hooks that run before/after the modeline version string is updated
     (require 'tree-sitter-langs)
     (global-tree-sitter-mode)
     (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+#+end_src
+
+** Rustic
+
+#+begin_src emacs-lisp
+  (use-package rustic)
 #+end_src
